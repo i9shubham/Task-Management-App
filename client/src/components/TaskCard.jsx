@@ -1,5 +1,4 @@
 import {
-    Box,
     Card,
     CardActions,
     CardContent,
@@ -16,6 +15,12 @@ const status = {
     todo: 'lightcoral',
     done: 'lightgreen',
     in_progress: 'lightblue',
+};
+
+const showStatusLabel = {
+    todo: 'To Do',
+    done: 'Done',
+    in_progress: 'In Progress',
 };
 
 const TaskCard = ({ task }) => {
@@ -35,9 +40,8 @@ const TaskCard = ({ task }) => {
                     border: `1px solid ${status[task.status]}`,
                     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
                     justifyContent: 'space-between',
-                    '@media (max-width: 600px)': {
-                        width: '100%',
-                    },
+                    minWidth: '240px',
+                    margin: '10px',
                 }}
             >
                 <CardContent>
@@ -50,13 +54,13 @@ const TaskCard = ({ task }) => {
                             }}
                         >
                             <Typography
-                                sx={{ fontSize: 14 }}
                                 color='#151515'
                                 gutterBottom
+                                sx={{ fontWeight: 'bold', width: '90%' }}
                             >
                                 {task.title}
                             </Typography>
-                            <Tooltip title={task.status} placement='bottom'>
+                            {/* <Tooltip title={task.status} placement='bottom'>
                                 <Box
                                     sx={{
                                         backgroundColor: status[task.status],
@@ -67,7 +71,7 @@ const TaskCard = ({ task }) => {
                                         color: '#fff',
                                     }}
                                 ></Box>
-                            </Tooltip>
+                            </Tooltip> */}
                         </div>
                         <Typography
                             sx={{ fontSize: 14 }}
@@ -82,7 +86,9 @@ const TaskCard = ({ task }) => {
                         </Typography>
                     </div>
                 </CardContent>
-                <CardActions>
+                <CardActions
+                    sx={{ display: 'flex', justifyContent: 'space-between' }}
+                >
                     <Tooltip title='Edit Task' placement='right'>
                         <button
                             // style={{ backgroundColor: status[task.status] }}
@@ -91,6 +97,22 @@ const TaskCard = ({ task }) => {
                         >
                             <MdModeEdit />
                         </button>
+                    </Tooltip>
+                    <Tooltip title='Current Status' placement='bottom'>
+                        <Typography
+                            variant='p'
+                            sx={{
+                                fontSize: '12px',
+                                // textDecoration: 'underline',
+                                cursor: 'default',
+                                backgroundColor: status[task.status],
+                                borderRadius: '8px',
+                                padding: '5px 8px',
+                                color: 'white',
+                            }}
+                        >
+                            {showStatusLabel[task.status]}
+                        </Typography>
                     </Tooltip>
                 </CardActions>
             </Card>
