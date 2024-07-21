@@ -66,8 +66,6 @@ const tasks = createSlice({
             })
             .addCase(updateTaskAction.fulfilled, (state, action) => {
                 state.tasks = state.tasks.map((task) => {
-                    console.log(action.payload);
-
                     if (task.id === action.payload.id) {
                         return { ...action.payload, show: true };
                     }
@@ -84,8 +82,6 @@ const tasks = createSlice({
                 state.error = null;
             })
             .addCase(deleteTaskAction.fulfilled, (state, action) => {
-                console.log(action.meta.arg);
-
                 state.tasks = state.tasks.filter(
                     (task) => task.id !== action.meta.arg
                 );

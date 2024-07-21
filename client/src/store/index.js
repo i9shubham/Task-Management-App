@@ -5,6 +5,4 @@ const store = configureStore({
     reducer: { tasks: tasks },
 });
 
-// const { dispatch } = store;
-
 export { store };
