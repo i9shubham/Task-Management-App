@@ -1,0 +1,27 @@
+.card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    /* min-width: 12vw;
+    min-height: 12vw; */
+    margin: 1em;
+    width: fit-content;
+    padding: 2%;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title {}
+
+.card-text {}
+
+.edit-btn {
+    padding: 0.5em;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
