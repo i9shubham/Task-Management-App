@@ -16,7 +16,7 @@ const Task = ({ action, data, open, handleClose }) => {
 
 Task.propTypes = {
     action: PropTypes.string.isRequired,
-    data: PropTypes.object.isRequired,
+    data: PropTypes.object,
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
 };
