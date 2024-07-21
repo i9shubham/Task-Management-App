@@ -16,7 +16,18 @@ const tasks = createSlice({
     name: 'tasks',
     initialState,
     reducers: {
-        // Add your reducers here
+        setFilter: (state, action) => {
+            state.tasks.map((task) => {
+                if (
+                    task.status === action.payload ||
+                    action.payload === 'all'
+                ) {
+                    task.show = true;
+                } else {
+                    task.show = false;
+                }
+            });
+        },
     },
     extraReducers(builder) {
         builder
@@ -25,7 +36,7 @@ const tasks = createSlice({
                 state.error = null;
             })
             .addCase(createTaskAction.fulfilled, (state, action) => {
-                state.tasks.push(action.payload);
+                state.tasks.push({ ...action.payload, show: true });
                 state.loading = false;
             })
             .addCase(createTaskAction.rejected, (state, action) => {
@@ -37,7 +48,12 @@ const tasks = createSlice({
                 state.error = null;
             })
             .addCase(getAllTasksAction.fulfilled, (state, action) => {
-                state.tasks = action.payload;
+                state.tasks = action.payload.map((task) => {
+                    return {
+                        ...task,
+                        show: true,
+                    };
+                });
                 state.loading = false;
             })
             .addCase(getAllTasksAction.rejected, (state, action) => {
@@ -50,8 +66,10 @@ const tasks = createSlice({
             })
             .addCase(updateTaskAction.fulfilled, (state, action) => {
                 state.tasks = state.tasks.map((task) => {
+                    console.log(action.payload);
+
                     if (task.id === action.payload.id) {
-                        return action.payload;
+                        return { ...action.payload, show: true };
                     }
                     return task;
                 });
@@ -66,8 +84,10 @@ const tasks = createSlice({
                 state.error = null;
             })
             .addCase(deleteTaskAction.fulfilled, (state, action) => {
+                console.log(action.meta.arg);
+
                 state.tasks = state.tasks.filter(
-                    (task) => task.id !== action.payload.id
+                    (task) => task.id !== action.meta.arg
                 );
                 state.loading = false;
             })
@@ -77,5 +97,7 @@ const tasks = createSlice({
             });
     },
 });
+
+export const { setFilter } = tasks.actions;
 
 export default tasks.reducer;
