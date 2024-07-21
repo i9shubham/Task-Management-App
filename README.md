@@ -37,12 +37,20 @@ The Task Management App is a comprehensive tool designed to help users efficient
     ```bash
     pip install fastapi uvicorn sqlalchemy pydantic
     ```
+    or
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-4. **Run the FastAPI server**:
+5. **Run the FastAPI server over the local environment**:
 
     ```bash
     python main.py runserver 127.0.0.1:3001
     ```
+    or
+   ```bash
+   uvicorn main:app --host 0.0.0.0 --port 3001
+   ```
 
 ## Usage
 
