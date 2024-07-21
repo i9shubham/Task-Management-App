@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
-// import { useDispatch } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
 import {
     Box,
@@ -21,6 +20,7 @@ import {
     deleteTaskAction,
     updateTaskAction,
 } from '../store/actions/taskActions';
+import { setFilter } from '../store/reducers/tasks';
 
 const TaskForm = ({ action, close, data }) => {
     const dispatch = useDispatch();
@@ -35,10 +35,8 @@ const TaskForm = ({ action, close, data }) => {
     const {
         register,
         handleSubmit,
-        // watch,
         setValue,
         formState: { errors },
-        // getValues,
         watch,
     } = useForm({
         defaultValues: {
@@ -51,13 +49,14 @@ const TaskForm = ({ action, close, data }) => {
 
     const handleConfirm = async () => {
         if (formAction === 'Update') {
-            await dispatch(updateTaskAction(newTask));
+            dispatch(updateTaskAction(newTask));
         } else if (formAction === 'Add') {
-            await dispatch(createTaskAction(newTask));
+            dispatch(createTaskAction(newTask));
         }
         if (formAction === 'Delete') {
-            await dispatch(deleteTaskAction(data.id));
+            dispatch(deleteTaskAction(data.id));
         }
+        dispatch(setFilter('all'));
         await close();
     };
     const onSubmit = async (data) => {
@@ -73,18 +72,8 @@ const TaskForm = ({ action, close, data }) => {
         setOpen(true);
     };
 
-    // useEffect(() => {
-    //     cities.filter((city) => {
-    //         if (city.value === getValues().city) {
-    //             setValue('state', city.state);
-    //         }
-    //     });
-    // }, [getValues().city]);
-
     return (
         <>
-            {/* <input {...register('id')} />
-                {errors.id && <span>{errors.id.message}</span>} */}
             <h1>Task</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2}>
@@ -131,10 +120,8 @@ const TaskForm = ({ action, close, data }) => {
                             Status
                         </InputLabel>
                         <TextField
-                            // required
                             id='standard-select-currency'
                             select
-                            // label='Status'
                             value={watch('status')}
                             onChange={(e) => {
                                 setValue('status', e.target.value);
@@ -161,7 +148,6 @@ const TaskForm = ({ action, close, data }) => {
                         <Box sx={{ display: 'flex', gap: 2 }}>
                             <Button
                                 disableElevation
-                                size='large'
                                 type='submit'
                                 variant='contained'
                                 color='primary'
@@ -171,7 +157,6 @@ const TaskForm = ({ action, close, data }) => {
                             {action === 'UPDATE' && (
                                 <Button
                                     disableElevation
-                                    size='large'
                                     variant='contained'
                                     color='error'
                                     onClick={() => handleDelete()}
