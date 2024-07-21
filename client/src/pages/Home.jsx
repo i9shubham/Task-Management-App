@@ -73,7 +73,7 @@ const Home = () => {
                     }}
                     value={select}
                     sx={{
-                        width: { xs: '80%', sm: '60%', md: '20vw' },
+                        width: { xs: '40vw', md: '20vw' },
                         mx: 'auto',
                         my: 2,
                         backgroundColor: '#fff',
