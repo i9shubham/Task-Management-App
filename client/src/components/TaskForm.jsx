@@ -28,17 +28,10 @@ const TaskForm = ({ action, close, data }) => {
     const [formAction, setFormAction] = useState('');
     const [newTask, setNewTask] = useState({});
 
-    // const [newWarehouse, setNewWarehouse] = useState({});
-
-    // const handleClickOpen = () => {
-    //   setOpen(true);
-    // };
-
     const handleClose = () => {
         setOpen(false);
     };
 
-    // const dispatch = useDispatch();
     const {
         register,
         handleSubmit,
@@ -57,8 +50,6 @@ const TaskForm = ({ action, close, data }) => {
     });
 
     const handleConfirm = async () => {
-        // console.log(formAction);
-        console.log(newTask);
         if (formAction === 'Update') {
             await dispatch(updateTaskAction(newTask));
         } else if (formAction === 'Add') {
@@ -195,7 +186,7 @@ const TaskForm = ({ action, close, data }) => {
 
             <Dialog open={open} onClose={handleClose}>
                 <DialogContent>
-                    Are you sure, you want to {formAction} this Warehouse?
+                    Are you sure, you want to {formAction} this Task?
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
