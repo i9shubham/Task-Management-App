@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllTasksAction } from '../store/actions/taskActions';
 import Task from '../components/Task';
 import { setFilter } from '../store/reducers/tasks';
+import Notification from '../components/Notification';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const Home = () => {
     }, []);
     return (
         <>
+            <Notification />
             <Tooltip title='Add Item' placement='right'>
                 <Button
                     onClick={handleTaskOpen}
@@ -77,7 +79,7 @@ const Home = () => {
                 }}
             >
                 <Typography mr={2} color={'#151515'}>
-                    Welcome <span style={{fontWeight: 'bold'}}>{user}</span>
+                    Welcome <span style={{ fontWeight: 'bold' }}>{user}</span>
                 </Typography>
                 <Select
                     size='small'
