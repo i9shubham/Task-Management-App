@@ -127,7 +127,14 @@ To start the development server:
 npm run dev
 ```
 
+
 Or if you prefer yarn:
 ```bash
 yarn dev
+```
+
+## Routes
+```
+- Home : '/'
+- Login : '/login' {Authentication}
 ```
