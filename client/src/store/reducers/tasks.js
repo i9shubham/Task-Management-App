@@ -8,6 +8,8 @@ import {
 
 const initialState = {
     tasks: [],
+    showNotification: false,
+    notificationData: '',
     loading: false,
     error: null,
 };
@@ -28,6 +30,10 @@ const tasks = createSlice({
                 }
             });
         },
+        setNotificationToDefault: (state) => {
+            state.showNotification = false;
+            state.notificationData = '';
+        },
     },
     extraReducers(builder) {
         builder
@@ -38,6 +44,8 @@ const tasks = createSlice({
             .addCase(createTaskAction.fulfilled, (state, action) => {
                 state.tasks.push({ ...action.payload, show: true });
                 state.loading = false;
+                state.showNotification = true;
+                state.notificationData = 'Task created successfully';
             })
             .addCase(createTaskAction.rejected, (state, action) => {
                 state.loading = false;
@@ -72,6 +80,8 @@ const tasks = createSlice({
                     return task;
                 });
                 state.loading = false;
+                state.showNotification = true;
+                state.notificationData = 'Task updated successfully';
             })
             .addCase(updateTaskAction.rejected, (state, action) => {
                 state.loading = false;
@@ -86,6 +96,8 @@ const tasks = createSlice({
                     (task) => task.id !== action.meta.arg
                 );
                 state.loading = false;
+                state.showNotification = true;
+                state.notificationData = 'Task deleted successfully';
             })
             .addCase(deleteTaskAction.rejected, (state, action) => {
                 state.loading = false;
@@ -94,6 +106,6 @@ const tasks = createSlice({
     },
 });
 
-export const { setFilter } = tasks.actions;
+export const { setFilter, setNotificationToDefault } = tasks.actions;
 
 export default tasks.reducer;
