@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
 import './Home.css';
-import { Box, Button, Grid, MenuItem, Select, Tooltip } from '@mui/material';
+import {
+    Box,
+    Button,
+    Grid,
+    MenuItem,
+    Select,
+    Tooltip,
+    Typography,
+} from '@mui/material';
 import TaskCard from '../components/TaskCard';
 import { IoIosAddCircle } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +21,7 @@ const Home = () => {
     const { tasks } = useSelector((state) => state.tasks);
     const [open, setOpen] = useState(false);
     const [select, setSelect] = useState('all');
+    const [user, setUser] = useState(localStorage.getItem('email'));
     const handleTaskOpen = () => {
         setOpen(!open);
     };
@@ -21,6 +30,9 @@ const Home = () => {
         dispatch(getAllTasksAction());
     }, []);
 
+    useEffect(() => {
+        setUser(localStorage.getItem('email'));
+    }, []);
     return (
         <>
             <Tooltip title='Add Item' placement='right'>
@@ -64,6 +76,9 @@ const Home = () => {
                     },
                 }}
             >
+                <Typography mr={2} color={'#151515'}>
+                    Welcome <span style={{fontWeight: 'bold'}}>{user}</span>
+                </Typography>
                 <Select
                     size='small'
                     id='standard-select-status'
