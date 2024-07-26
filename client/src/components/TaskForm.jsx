@@ -9,6 +9,7 @@ import {
     DialogActions,
     DialogContent,
     Grid,
+    Input,
     InputLabel,
     MenuItem,
     Stack,
@@ -27,6 +28,7 @@ const TaskForm = ({ action, close, data }) => {
     const [open, setOpen] = useState(false);
     const [formAction, setFormAction] = useState('');
     const [newTask, setNewTask] = useState({});
+    const [imageBase64, setImageBase64] = useState('');
 
     const handleClose = () => {
         setOpen(false);
@@ -44,6 +46,7 @@ const TaskForm = ({ action, close, data }) => {
             title: data?.title || '',
             description: data?.description || '',
             status: data?.status || '',
+            image: data?.image || '',
         },
     });
 
@@ -59,8 +62,9 @@ const TaskForm = ({ action, close, data }) => {
         dispatch(setFilter('all'));
         await close();
     };
+
     const onSubmit = async (data) => {
-        setNewTask(data);
+        setNewTask({ ...data, image: imageBase64 });
 
         if (action === 'UPDATE') setFormAction('Update');
         if (action === 'ADD') setFormAction('Add');
@@ -70,6 +74,20 @@ const TaskForm = ({ action, close, data }) => {
     const handleDelete = () => {
         setFormAction('Delete');
         setOpen(true);
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                const base64String = reader.result;
+                setImageBase64(base64String.split(',')[1]);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (
@@ -113,6 +131,77 @@ const TaskForm = ({ action, close, data }) => {
                                 as='span'
                             />
                         </Stack>
+                    </Grid>
+
+                    <Grid item xs={12} md={12}>
+                        <Grid item xs={12}>
+                            <Input
+                                type='file'
+                                accept='image/*'
+                                onChange={handleImageChange}
+                                // {...register('image', { required: 'please add image' })}
+                                id='imageInput'
+                                style={{ display: 'none' }}
+                            />
+                            {imageBase64 !== '' ? (
+                                <Box container align='center'>
+                                    <label
+                                        htmlFor='imageInput'
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <Box sx={{ border: '1px dashed grey' }}>
+                                            <Box
+                                                component='img'
+                                                src={`data:image/png;base64,${imageBase64}`}
+                                                alt='Image preview'
+                                                sx={{
+                                                    width: '200px',
+                                                    borderRadius: 1,
+                                                    mt: 2,
+                                                    padding: 1,
+                                                    objectFit: 'cover',
+                                                }}
+                                            />
+                                            <p
+                                                style={{
+                                                    color: 'blue',
+                                                    textDecoration: 'underline',
+                                                }}
+                                            >
+                                                Change Image
+                                            </p>
+                                        </Box>
+                                    </label>
+                                </Box>
+                            ) : (
+                                <Box container align='center'>
+                                    <label
+                                        htmlFor='imageInput'
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                borderRadius: 1,
+                                                mt: 2,
+                                                border: '1px dashed rgba(0, 0, 0, 0.2)',
+                                                color: 'gray',
+                                                // textDecoration: 'underline',
+                                                backgroundColor: '#fff',
+                                                '&:hover': {
+                                                    //   backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                                    borderColor: '#1890ff',
+                                                },
+                                            }}
+                                        >
+                                            Select Image
+                                        </Box>
+                                    </label>
+                                </Box>
+                            )}
+                        </Grid>
                     </Grid>
 
                     <Grid item xs={6}>
